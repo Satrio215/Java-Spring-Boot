@@ -1,5 +1,7 @@
 package com.belajar.spring_boot_backend.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -22,6 +24,11 @@ public class Employee {
 
     @Column(name = "email_id")
     private String emailId;
+
+    @ManyToOne
+    @JoinColumn(name = "company_id", nullable = false)
+    @JsonManagedReference
+    private Company company;
 
 
     public void setFirstName(String firstName) {
@@ -46,5 +53,13 @@ public class Employee {
 
     public String getEmailId() {
         return emailId;
+    }
+
+    public void setCompany(Company company) {
+        this.company = company;
+    }
+
+    public Company getCompany() {
+        return company;
     }
 }

@@ -30,8 +30,12 @@ public class EmployeeController {
     }
 
     @PostMapping
-    public Employee createEmployee(@RequestBody Employee employee){
-        return employeeRepository.save(employee);
+    public ResponseEntity<Employee> createEmployee(@RequestBody Employee employee) {
+        if (employee.getCompany() == null || employee.getCompany().getId() == 0) {
+            return ResponseEntity.badRequest().build();
+        }
+        Employee savedEmployee = employeeRepository.save(employee);
+        return ResponseEntity.status(HttpStatus.CREATED).body(savedEmployee);
     }
 
     @PutMapping("{id}")
